@@ -1,10 +1,10 @@
 
-<?php// header.php 
+<?php
 
-Bad practice: 
+Bad practice:  // header.php 
 function custom_head(){ echo '<script type="text/javascript">var ajaxurl = \''.admin_url('admin-ajax.php').'\';</script>'; }
 
-Good practice:
+Good practice: // where you enqueue your script - send it your admin-ajax.php url too!
 function my_theme_js_init() { 
 
 	wp_enqueue_script('my_theme_init', get_stylesheet_directory_uri() . '/library/js/init.js', array('jquery'));
@@ -21,7 +21,7 @@ add_action('wp_enqueue_scripts', 'my_theme_js_init');
 ?>
 
 
-<script type="text/javascript">
+<script type="text/javascript"> // JAVASCRIPT
 // Ben's ajax JS functions
 $(window).load(function(){
 
@@ -29,7 +29,8 @@ $(window).load(function(){
   var count = 1; 
 
   // Next button
-	$('#ajaxnext').on('click', function(){
+		// $('#ajaxnext').on('click', function(){ bad practice for dynamicly created button types
+		$(document).on('click', '#ajaxnext', function(){ // looks to the dom for a selector
 	  count++;
 		myOBJ = {
 			action: 'pages',
@@ -37,19 +38,19 @@ $(window).load(function(){
 			count:count
 		};
  	  loadArticles(myOBJ);
- 	  console.log(myOBJ);
   }); 
 
-	// Prev button
-  // $('#ajaxprev').on('click', function(){
-  // 	if(count != 1) {count--};
-		// myOBJ = {
-		// 	action: 'pages',
-		// 	data: "page_no=" + count,
-		// 	count:count
-		// };
- 	//   loadArticles(myOBJ);
-  // }); 
+	Prev button
+  	// $('#ajaxprev').on('click', function(){ bad practice for dynamicly created button types
+		$(document).on('click', '#ajaxprev', function(){ // looks to the dom for a selector
+  	if(count != 1) {count--};
+		myOBJ = {
+			action: 'pages',
+			data: "page_no=" + count,
+			count:count
+		};
+ 	  loadArticles(myOBJ);
+  }); 
 
   // Query
   function loadArticles(pageNumber){
@@ -60,7 +61,6 @@ $(window).load(function(){
         success: function(html){
 	     	  $('.firstrow').empty(); // emtpy the node
 	     	  $('.firstrow').append(html); // append the returned data to the node
-	     	  console.log(myOBJ.count);
         }
     });
 		return false;
@@ -80,7 +80,7 @@ $(window).load(function(){
 
 
 
-<?php // PHP code for AJAX 
+<?php // PHP (functions.php)
 
 add_action('wp_ajax_pages', '_custom_paginate');           // for logged in user
 add_action('wp_ajax_nopriv_pages', '_custom_paginate');    // if user not logged in
@@ -102,7 +102,7 @@ function _custom_paginate(){
 	  if ( $query->have_posts() ) :
 	  while ($query->have_posts()) : $query->the_post(); ?>
 	  <div class="content">
-	      <?php the_content();?>
+	  	<?php // loop code here ?>
 	  </div>
 
 
