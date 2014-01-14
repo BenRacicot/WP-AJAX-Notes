@@ -1,4 +1,3 @@
-
 <?php
 
 Bad practice:  // header.php 
@@ -58,6 +57,12 @@ $(window).load(function(){
         url: ajaxurl, // defined in header.php
         type:'POST',
         data: myOBJ, 
+          beforeSend: function() {
+	     $('#loader').show();
+	  },
+	  complete: function(){
+	     $('#loader').hide();
+	  },
         success: function(html){
 	     	  $('.firstrow').empty(); // emtpy the node
 	     	  $('.firstrow').append(html); // append the returned data to the node
