@@ -1,5 +1,7 @@
 <?php
 
+// This is rough code to create asyncronous pagination within WordPress
+
 Bad practice:  // header.php 
 function custom_head(){ echo '<script type="text/javascript">var ajaxurl = \''.admin_url('admin-ajax.php').'\';</script>'; }
 
